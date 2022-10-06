@@ -1,7 +1,25 @@
-# Здесь будет ваш проект на Реакте с авторизацией и регистрацией
+# Project "Mesto" on React.js
+>[Project DEMO.](https://bellabzhu.github.io/mesto-react)
+### **About**
+This is the place where you can see other people's photo posts, like them and upload your own. You can change the name and avatar if you want. <br>
 
-Используйте ваши предыдущие наработки по проекту Mesto. Это может быть работа 11-го спринта или его улучшенная версия после 2-х последних спринтов. 
+The project has the same functionality as [Mesto](https://github.com/bellabzhu/app_mesto) but made on React.js.
 
-Все запросы на авторизацию, регистрацию и проверку токена должны работать через сервис `https://auth.nomoreparties.co`. Остальные запросы, не относящиеся к этой проектной работе могут быть к бэкенду из предыдущих спринтов.
+### **! Important**
+The project is using the Yandex API and many students has access to it that is why I apologize for any inappropriate content you could see - that is out of my control.
 
-Успехов!
+### **Features**
+* changing name/about/avatar of current user;
+* adding a new card
+* deleting cards uploaded by you;
+* putting/removing likes;
+* opening images fullscreen;
+
+### **Used**
+* HTML5, CSS3 (flex, grid, template tags, adaptive design); 
+* JavaScript ES6 (API, popups);
+* React.js (hooks useState, useEffect, useContext). CPA.
+___
+**Author:** Bella Bzhukova.<br>
+
+<sub>The project was made during training at [Yandex.Practikum](https://practicum.yandex.ru).</sub>
