@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
+import { Routes, Route, useNavigate, Navigate, BrowserRouter } from 'react-router-dom';
 import '../index.css';
 import { api } from '../utils/Api';
+import ProtectedRoute from "./ProtectedRoute";
+import Login from './Login';
+import Register from './Register';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -14,6 +18,8 @@ import ConfirmationPopup from './ConfirmationPopup';
 
 function App() {
 
+  const navigation = useNavigate();
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -41,11 +47,9 @@ function App() {
         closeAllPopups();
       }
     }
-
     if (isOpen) {
         document.addEventListener('keydown', closePopupByEsc)
     }
-
     return () => {
       document.removeEventListener('keydown', closePopupByEsc)
     }
@@ -129,17 +133,37 @@ function App() {
   return (
     <div className="page-container">
       <Header />
+
       <CurrentUserContext.Provider value={currentUser}>
       <isButtonLoadingContext.Provider value={isButtonLoading}>
-      <Main 
-        onEditProfile={handleEditProfileClick}
-        onAddPlace={handleAddPlaceClick}
-        onEditAvatar={handleEditAvatarClick}
-        onCardClick={handleCardClick}
-        cards={cards}
-        onCardLike={handleCardLike}
-        onDeleteClick={handleCallConfirmationPopup}
-      />
+
+      <Routes>
+        <Route path="/sign-up" element={<Register />} />
+        <Route path="/sign-in" element={<Login />} />
+
+        <Route path="*" 
+          element={
+            loggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" />
+          } 
+        />
+        
+      </Routes>
+
+        {/* <ProtectedRoute path="/" loggedIn={loggedIn}>
+          <Main 
+            onEditProfile={handleEditProfileClick}
+            onAddPlace={handleAddPlaceClick}
+            onEditAvatar={handleEditAvatarClick}
+            onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onDeleteClick={handleCallConfirmationPopup}
+          />
+        </ProtectedRoute> */}
+
+
+
+
 
       <Footer />
 
