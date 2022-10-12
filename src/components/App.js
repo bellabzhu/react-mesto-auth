@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, useNavigate, Navigate, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import '../index.css';
 import { api } from '../utils/Api';
 import ProtectedRoute from "./ProtectedRoute";
@@ -54,6 +54,18 @@ function App() {
       document.removeEventListener('keydown', closePopupByEsc)
     }
   }, [isOpen])
+
+  function handleLogin () {
+    console.log('this is handleLogin')
+  }
+
+  function handleRegister () {
+    console.log('this is handleRegister')
+  }
+
+  function handleLogout () {
+    console.log('you are trying to logout')
+  }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -132,14 +144,35 @@ function App() {
 
   return (
     <div className="page-container">
-      <Header />
+      <Header 
+        loggedIn={loggedIn}
+        onLogout={handleLogout}
+      />
 
       <CurrentUserContext.Provider value={currentUser}>
       <isButtonLoadingContext.Provider value={isButtonLoading}>
 
       <Routes>
-        <Route path="/sign-up" element={<Register />} />
-        <Route path="/sign-in" element={<Login />} />
+        <Route path="/sign-up" element={<Register onRegister={handleRegister} />} />
+        <Route path="/sign-in" element={<Login onLogin={handleLogin} />} />
+
+        <Route path="/" element={
+          <ProtectedRoute
+            children={
+              <Main
+                loggedIn={loggedIn}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
+                cards={cards}
+                onCardLike={handleCardLike}
+                onDeleteClick={handleCallConfirmationPopup}
+              />
+            }
+          />
+        }
+        />
 
         <Route path="*" 
           element={
@@ -148,22 +181,6 @@ function App() {
         />
         
       </Routes>
-
-        {/* <ProtectedRoute path="/" loggedIn={loggedIn}>
-          <Main 
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            onCardClick={handleCardClick}
-            cards={cards}
-            onCardLike={handleCardLike}
-            onDeleteClick={handleCallConfirmationPopup}
-          />
-        </ProtectedRoute> */}
-
-
-
-
 
       <Footer />
 

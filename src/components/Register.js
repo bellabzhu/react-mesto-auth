@@ -1,8 +1,9 @@
 function Register (props) {
+
+  props.onRegister()
+
   return (
-    <div>
       <div>ТУТ РЕГИСТРАЦИЯ</div>
-    </div>
   )
 }
 
