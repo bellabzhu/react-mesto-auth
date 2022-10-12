@@ -1,9 +1,14 @@
+import {Link} from "react-router-dom";
+
 function Register (props) {
 
   props.onRegister()
 
   return (
-      <div>ТУТ РЕГИСТРАЦИЯ</div>
+    <div>
+      <h1>ТУТ РЕГИСТРАЦИЯ</h1>
+      <Link to='/login'>Уже зарегистрированы? Войти</Link>
+    </div>
   )
 }
 

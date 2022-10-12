@@ -1,7 +1,11 @@
+import { Link } from 'react-router-dom';
+
 function Login (props) {
 
   return (
-    <div>ТУТ ТЕКСТ ЛОГИН</div>
+    <div>
+      <Link to='/login'>Войти</Link>
+    </div>
   )
 }
 

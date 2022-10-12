@@ -19,7 +19,7 @@ import ConfirmationPopup from './ConfirmationPopup';
 function App() {
 
   const navigation = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -30,6 +30,10 @@ function App() {
   const [currentUser, setCurrentUser] = useState({name: '', about: '', avatar: '', cohort: '', _id: ''})
   const [cards, setCards] = useState([]);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
+
+  // useEffect(() => {
+  //   tokenCheck()
+  // }, [])
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -65,6 +69,11 @@ function App() {
 
   function handleLogout () {
     console.log('you are trying to logout')
+  }
+
+  function tokenCheck () {
+    if (!localStorage.getItem('jwt')) return;
+    const jwt = localStorage.getItem('jwt');
   }
 
   function handleCardLike(card) {
@@ -157,8 +166,6 @@ function App() {
         <Route path="/sign-in" element={<Login onLogin={handleLogin} />} />
 
         <Route path="/" element={
-          <ProtectedRoute
-            children={
               <Main
                 loggedIn={loggedIn}
                 onEditProfile={handleEditProfileClick}
@@ -170,8 +177,6 @@ function App() {
                 onDeleteClick={handleCallConfirmationPopup}
               />
             }
-          />
-        }
         />
 
         <Route path="*" 
