@@ -179,7 +179,7 @@ function App() {
             }
         />
 
-        <Route path="*" 
+        <Route path="*"
           element={
             loggedIn ? <Navigate to="/" /> : <Navigate to="/sign-in" />
           } 
