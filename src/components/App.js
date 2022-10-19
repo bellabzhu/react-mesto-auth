@@ -19,7 +19,7 @@ import ConfirmationPopup from './ConfirmationPopup';
 function App() {
 
   const navigation = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -153,17 +153,26 @@ function App() {
 
   return (
     <div className="page-container">
-      <Header 
-        loggedIn={loggedIn}
-        onLogout={handleLogout}
-      />
-
       <CurrentUserContext.Provider value={currentUser}>
       <isButtonLoadingContext.Provider value={isButtonLoading}>
 
       <Routes>
-        <Route path="/sign-up" element={<Register onRegister={handleRegister} />} />
-        <Route path="/sign-in" element={<Login onLogin={handleLogin} />} />
+        <Route path="/sign-up" element={
+          <Register 
+            onRegister={handleRegister} 
+            headerText="Войти"
+            headerLink="/sign-in"
+            loggedIn={loggedIn}
+            onLogout={handleLogout}
+          />
+        }/>
+
+        <Route path="/sign-in" element={
+        <Login 
+          onLogin={handleLogin}
+          headerLink="/sign-up"
+          headerText="Регистрация" 
+          />} />
 
         <Route path="/" element={
               <Main
@@ -175,6 +184,7 @@ function App() {
                 cards={cards}
                 onCardLike={handleCardLike}
                 onDeleteClick={handleCallConfirmationPopup}
+                headerText="Выйти"
               />
             }
         />
