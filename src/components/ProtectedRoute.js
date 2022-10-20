@@ -1,10 +1,10 @@
-import { Route, Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, Navigate } from "react-router-dom";
 
-function ProtectedRoute({ loggedIn, children }) {
+function ProtectedRoute(props) {
+
   return (
-    <Route>
-      {loggedIn ? children : <Navigate to="/sign-in" />}
-    </Route>
+      props.loggedIn ? <Outlet /> : <Navigate to="/sign-in" />
   );
 }
 

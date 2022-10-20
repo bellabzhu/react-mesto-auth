@@ -5,7 +5,6 @@ import { api } from '../utils/Api';
 import ProtectedRoute from "./ProtectedRoute";
 import Login from './Login';
 import Register from './Register';
-import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
@@ -168,26 +167,29 @@ function App() {
         }/>
 
         <Route path="/sign-in" element={
-        <Login 
-          onLogin={handleLogin}
-          headerLink="/sign-up"
-          headerText="Регистрация" 
-          />} />
-
-        <Route path="/" element={
-              <Main
-                loggedIn={loggedIn}
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-                cards={cards}
-                onCardLike={handleCardLike}
-                onDeleteClick={handleCallConfirmationPopup}
-                headerText="Выйти"
-              />
-            }
+          <Login 
+            onLogin={handleLogin}
+            headerLink="/sign-up"
+            headerText="Регистрация" 
+          />} 
         />
+
+          <Route element={<ProtectedRoute loggedIn={loggedIn}/>}>   
+            <Route exact path="/" element={
+                  <Main
+                    loggedIn={loggedIn}
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                    cards={cards}
+                    onCardLike={handleCardLike}
+                    onDeleteClick={handleCallConfirmationPopup}
+                    headerText="Выйти"
+                  />
+                }
+            />
+          </Route>
 
         <Route path="*"
           element={
