@@ -1,5 +1,3 @@
-
-
 function InfoToolTip (props) {
 
   function closeByOverlay (e) {
@@ -10,7 +8,6 @@ function InfoToolTip (props) {
 
   const textSuccess = 'Вы успешно зарегистрировались!';
   const textFailed = 'Что-то пошло не так! Попробуйте ещё раз.'
-
 
   return (
     <div

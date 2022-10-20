@@ -14,6 +14,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmationPopup from './ConfirmationPopup';
+import InfoToolTip from './InfoTooltip';
 
 function App() {
 
@@ -24,7 +25,8 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false)
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
-  const isOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopupOpen || isConfirmationPopupOpen;
+  const [isInfoOpen, setIsInfoOpen] = useState(true);
+  const isOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopupOpen || isConfirmationPopupOpen || isInfoOpen;
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({name: '', about: '', avatar: '', cohort: '', _id: ''})
   const [cards, setCards] = useState([]);
@@ -148,7 +150,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsImagePopupOpen(false);
     setIsConfirmationPopupOpen(false);
-  
+    setIsInfoOpen(false);
   }
 
   return (
@@ -164,6 +166,7 @@ function App() {
             headerLink="/sign-in"
             loggedIn={loggedIn}
             onLogout={handleLogout}
+            isInfoOpen={isInfoOpen}
             onClose={closeAllPopups}
           />
         }/>
@@ -173,6 +176,7 @@ function App() {
             onLogin={handleLogin}
             headerLink="/sign-up"
             headerText="Регистрация"
+            isInfoOpen={isInfoOpen}
             onClose={closeAllPopups}
           />} 
         />
@@ -203,6 +207,11 @@ function App() {
       </Routes>
 
       <Footer />
+
+      <InfoToolTip
+        isOpen={isInfoOpen}
+        onClose={closeAllPopups}
+      />
 
       <EditProfilePopup
         isOpen={isEditProfilePopupOpen} 
