@@ -5,7 +5,10 @@ function Register (props) {
 
   return (
     <>
-      <Header headerText={props.headerText} headerLink={props.headerLink} />
+      <Header 
+        headerText={props.headerText} 
+        headerLink={props.headerLink}
+      />
       <section className="login">
         <h2 className="login__title">Регистрация</h2>
         <form className="login__form">

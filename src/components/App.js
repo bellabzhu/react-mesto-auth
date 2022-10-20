@@ -148,6 +148,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsImagePopupOpen(false);
     setIsConfirmationPopupOpen(false);
+  
   }
 
   return (
@@ -163,6 +164,7 @@ function App() {
             headerLink="/sign-in"
             loggedIn={loggedIn}
             onLogout={handleLogout}
+            onClose={closeAllPopups}
           />
         }/>
 
@@ -170,7 +172,8 @@ function App() {
           <Login 
             onLogin={handleLogin}
             headerLink="/sign-up"
-            headerText="Регистрация" 
+            headerText="Регистрация"
+            onClose={closeAllPopups}
           />} 
         />
 

@@ -1,9 +1,15 @@
 import Header from './Header';
+import InfoToolTip from './InfoTooltip';
 
 function Login (props) {
 
   return (
     <>
+      <InfoToolTip
+        sucess={true}
+        isOpen={true}
+        onClose={props.onClose}
+        />
       <Header headerText={props.headerText} headerLink={props.headerLink}/>
       <section className="login">
         <h2 className="login__title">Вход</h2>
