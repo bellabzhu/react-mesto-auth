@@ -9,7 +9,7 @@ function Main (props) {
 
   return (
     <>
-      <Header headerText={props.headerText} headerLink={props.headerLink} />
+      <Header headerText={props.headerText} headerLink={props.headerLink} onLogout={props.onLogout} />
       <main className="main">
 
       <section className="profile">

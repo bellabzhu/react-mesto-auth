@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import '../index.css';
 import { api } from '../utils/Api';
-import * as auth from '../utils/auth';
 import ProtectedRoute from "./ProtectedRoute";
 import Login from './Login';
 import Register from './Register';
@@ -35,7 +34,7 @@ function App() {
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   useEffect(() => {
-    tokenCheck()
+    tokenCheck();
   }, [])
 
   useEffect(() => {
@@ -105,6 +104,7 @@ function App() {
   }
 
   function handleLogout () {
+    console.log('logout')
     localStorage.removeItem('jwt');
     setLoggedIn(false);
     history('/sign-in');
@@ -114,6 +114,11 @@ function App() {
     if (!localStorage.getItem('jwt')) return;
     const jwt = localStorage.getItem('jwt');
     console.log('вот token', jwt)
+    api.getToken(jwt)
+      .then((data) => {
+        console.log(data)
+      })
+
   }
 
   function handleCardLike(card) {
@@ -231,7 +236,7 @@ function App() {
                     cards={cards}
                     onCardLike={handleCardLike}
                     onDeleteClick={handleCallConfirmationPopup}
-                    headerText="Выйти"
+                    onLogout={handleLogout}
                   />
                 }
             />

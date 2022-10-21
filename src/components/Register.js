@@ -13,12 +13,10 @@ function Register (props) {
   }, [])
 
   const handleEmailChange = (e) => {
-    console.log(email)
     setEmail(e.target.value)
   }
 
   const handlePassChange = (e) => {
-    console.log(password)
     setPassword(e.target.value)
   }
 

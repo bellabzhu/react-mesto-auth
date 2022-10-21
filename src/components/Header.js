@@ -7,7 +7,13 @@ function Header (props) {
       <Link to='/'>
         <div className="header__logo" aria-label="Logo"></div>
       </Link>
-      <Link to={props.headerLink} className="header__link">{props.headerText}</Link>
+      {props?.onLogout
+        ? <div className="header__userdata">
+            <p className="header__link">{userEmail}</p>
+            <button className="button header__link" onClick={props.onLogout}>Выйти</button>
+          </div>
+        : <Link to={props.headerLink} className="header__link">{props.headerText}</Link>
+      }
     </header>
   )
 }

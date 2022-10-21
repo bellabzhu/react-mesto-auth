@@ -103,6 +103,17 @@ class Api {
     .then(this._checkResponse)
   }
 
+  getToken (jwt) {
+    return fetch(`https://auth.nomoreparties.co/signin/users/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization" : `Bearer ${jwt}`
+      }
+    })
+    .then(this._checkResponse)
+  }
+
   _checkResponse (res) {
     if (res.ok) {
       return res.json();
