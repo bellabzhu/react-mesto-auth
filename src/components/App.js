@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import '../index.css';
 import { api } from '../utils/Api';
+import * as auth from '../utils/auth';
 import ProtectedRoute from "./ProtectedRoute";
 import Login from './Login';
 import Register from './Register';
@@ -18,23 +19,24 @@ import InfoToolTip from './InfoTooltip';
 
 function App() {
 
-  const navigation = useNavigate();
+  const history = useNavigate();
   const [loggedIn, setLoggedIn] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false)
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
-  const [isInfoOpen, setIsInfoOpen] = useState(true);
-  const isOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopupOpen || isConfirmationPopupOpen || isInfoOpen;
+  const [isInfoToolOpen, setisInfoToolOpen] = useState(false);
+  const [isInfoToolSuccess, setIsInfoToolSuccess] = useState(false);
+  const isOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopupOpen || isConfirmationPopupOpen || isInfoToolOpen;
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({name: '', about: '', avatar: '', cohort: '', _id: ''})
   const [cards, setCards] = useState([]);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
-  // useEffect(() => {
-  //   tokenCheck()
-  // }, [])
+  useEffect(() => {
+    tokenCheck()
+  }, [])
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -60,21 +62,58 @@ function App() {
     }
   }, [isOpen])
 
-  function handleLogin () {
-    console.log('this is handleLogin')
+  useEffect(() => {
+    if (!loggedIn) return;
+    history('/')
+  }, [loggedIn])
+
+  function handleLogin (email, password) {
+    api.login(email, password)
+      .then((data) => {
+        console.log(data, 'дата после успешного логина')
+        localStorage.setItem("token", data.token);
+        setLoggedIn(true);
+        history('/')
+      })
+      .catch(() => {
+        setIsInfoToolSuccess(false)
+        setisInfoToolOpen(true);
+        setTimeout(() => {
+          setisInfoToolOpen(false);
+        })
+      })
   }
 
-  function handleRegister () {
-    console.log('this is handleRegister')
+  function handleRegister (email, password) {
+    api.register(email, password)
+      .then((res) => {
+        console.log(res)
+        setIsInfoToolSuccess(true);
+        setisInfoToolOpen(true);
+        setTimeout(() => {
+          history('/');
+          setisInfoToolOpen(false)
+        }, 2500)
+      })
+      .catch(() => {
+        setIsInfoToolSuccess(false);
+        setisInfoToolOpen(true)
+        setTimeout(() => {
+          setisInfoToolOpen(false);
+        })
+      })
   }
 
   function handleLogout () {
-    console.log('you are trying to logout')
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    history('/sign-in');
   }
 
   function tokenCheck () {
     if (!localStorage.getItem('jwt')) return;
     const jwt = localStorage.getItem('jwt');
+    console.log('вот token', jwt)
   }
 
   function handleCardLike(card) {
@@ -150,7 +189,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsImagePopupOpen(false);
     setIsConfirmationPopupOpen(false);
-    setIsInfoOpen(false);
+    setisInfoToolOpen(false);
   }
 
   return (
@@ -166,7 +205,7 @@ function App() {
             headerLink="/sign-in"
             loggedIn={loggedIn}
             onLogout={handleLogout}
-            isInfoOpen={isInfoOpen}
+            isInfoToolOpen={isInfoToolOpen}
             onClose={closeAllPopups}
           />
         }/>
@@ -176,7 +215,7 @@ function App() {
             onLogin={handleLogin}
             headerLink="/sign-up"
             headerText="Регистрация"
-            isInfoOpen={isInfoOpen}
+            isInfoToolOpen={isInfoToolOpen}
             onClose={closeAllPopups}
           />} 
         />
@@ -209,8 +248,9 @@ function App() {
       <Footer />
 
       <InfoToolTip
-        isOpen={isInfoOpen}
+        isOpen={isInfoToolOpen}
         onClose={closeAllPopups}
+        success={isInfoToolSuccess}
       />
 
       <EditProfilePopup

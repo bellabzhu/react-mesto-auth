@@ -73,6 +73,36 @@ class Api {
     .then(this._checkResponse)
   }
 
+  register (email, password) {
+    return fetch(`https://auth.nomoreparties.co/signup`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        password: `${password}`,
+        email: `${email}`
+      }),
+    })
+    .then(this._checkResponse)
+  }
+
+  login (email, password) {
+    return fetch(`https://auth.nomoreparties.co/signin`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        password: `${password}`,
+        email: `${email}`
+      }),
+    })
+    .then(this._checkResponse)
+  }
+
   _checkResponse (res) {
     if (res.ok) {
       return res.json();

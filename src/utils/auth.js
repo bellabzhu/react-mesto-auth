@@ -23,23 +23,42 @@ const request = ({
   })
 };
 
-export const register = (username, password, email) => {
-  return request({
-    url: '/auth/local/register'
+export const register = (email, password) =>
+  fetch(`${BASE_URL}/signup`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
   })
-};
+  .then((res) => check(res));
 
-export const authorize = (identifier, password) => {
+// export const register = (data) => {
+//   return request({
+//     url: '/signup',
+//     data,
+//   })
+// };
+
+export const authorize = (data) => {
   return request({
-    url: '/auth/local',
-    data: { identifier, password},
+    url: '/signin',
+    data,
   })
 }
 
 export const getContent = (token) => {
-  return requesr({
+  return request({
     url: '/users/me',
     method: 'GET',
     token,
   })
+}
+
+function check(res) {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Возникла ошибка: ${res.status}`);
 }

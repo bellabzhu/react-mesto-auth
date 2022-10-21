@@ -11,7 +11,7 @@ function InfoToolTip (props) {
 
   return (
     <div
-    className={`popup popup_type_${props.name} ${props.isOpen ? "popup_opened" : ""} `}
+    className={`popup ${props.isOpen ? "popup_opened" : ""} `}
     onClick={closeByOverlay}
   >
     <div className="popup__container popup__container_infotooltip popup__container-area">
@@ -21,8 +21,8 @@ function InfoToolTip (props) {
         type="button"
         aria-label="Закрыть"
       ></button>
-      <div className="popup__info-icon"></div>
-      <h2 className="popup__title popup__title_infotooltip">{textSuccess}</h2>
+      <div className={props.success ? "popup__info-icon" : "popup__info-icon popup__info-icon_failed"}></div>
+      <h2 className="popup__title popup__title_infotooltip">{props.success ? textSuccess : textFailed}</h2>
     </div>
   </div>
   )
