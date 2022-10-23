@@ -19,7 +19,7 @@ import InfoToolTip from './InfoTooltip';
 function App() {
 
   const history = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -30,10 +30,12 @@ function App() {
   const isOpen = isEditProfilePopupOpen || isAddPlacePopupOpen || isEditAvatarPopupOpen || isImagePopupOpen || isConfirmationPopupOpen || isInfoToolOpen;
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({name: '', about: '', avatar: '', cohort: '', _id: ''})
+  const [userEmail, setUserEmail] = useState('');
   const [cards, setCards] = useState([]);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   useEffect(() => {
+    console.log('123')
     tokenCheck();
   }, [])
 
@@ -63,16 +65,17 @@ function App() {
 
   useEffect(() => {
     if (!loggedIn) return;
-    history('/')
-  }, [loggedIn])
+    history('/');
+  }, [loggedIn, history])
 
   function handleLogin (email, password) {
     api.login(email, password)
       .then((data) => {
-        console.log(data, 'дата после успешного логина')
+        console.log(data.token, 'токен после успешного логина')
         localStorage.setItem("token", data.token);
         setLoggedIn(true);
-        history('/')
+        setUserEmail(email);
+        history('/');
       })
       .catch(() => {
         setIsInfoToolSuccess(false)
@@ -237,6 +240,7 @@ function App() {
                     onCardLike={handleCardLike}
                     onDeleteClick={handleCallConfirmationPopup}
                     onLogout={handleLogout}
+                    userEmail={userEmail}
                   />
                 }
             />
