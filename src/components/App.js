@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import '../index.css';
 import { api } from '../utils/Api';
+import { auth } from '../utils/auth'
 import ProtectedRoute from "./ProtectedRoute";
 import Login from './Login';
 import Register from './Register';
@@ -36,9 +37,6 @@ function App() {
 
   useEffect(() => {
     tokenCheck();
-  }, [])
-
-  useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then( ([user, cards]) => {
         setCards(cards);
@@ -68,11 +66,9 @@ function App() {
   }, [loggedIn])
 
   function handleLogin (email, password) {
-    api.login(email, password)
+    auth.login(email, password)
       .then((data) => {
-        console.log(data.token, 'токен после успешного логина')
         localStorage.setItem('token', data.token);
-        console.log('это после сохранения токена')
         setUserEmail(email)
         setLoggedIn(true);
         history('/');
@@ -87,9 +83,8 @@ function App() {
   }
 
   function handleRegister (email, password) {
-    api.register(email, password)
-      .then((res) => {
-        console.log(res)
+    auth.register(email, password)
+      .then(() => {
         setIsInfoToolSuccess(true);
         setisInfoToolOpen(true);
         setTimeout(() => {
@@ -102,12 +97,11 @@ function App() {
         setisInfoToolOpen(true)
         setTimeout(() => {
           setisInfoToolOpen(false);
-        })
+        }, 2500)
       })
   }
 
   function handleLogout () {
-    console.log('logout')
     localStorage.removeItem('token');
     setLoggedIn(false);
     history('/sign-in');
@@ -116,7 +110,7 @@ function App() {
   function tokenCheck () {
     const jwt = localStorage.getItem('token');
     if (!jwt) { return }
-      api.checkToken(jwt)
+      auth.checkToken(jwt)
         .then(() => {
           setLoggedIn(true)
           history('/')

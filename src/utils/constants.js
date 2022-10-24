@@ -9,3 +9,11 @@ export const apiConfig = {
   fetchAvatar: 'https://mesto.nomoreparties.co/v1/cohort-46/users/me/avatar',
   fetchLikes: 'https://mesto.nomoreparties.co/v1/cohort-46/cards/cardId/likes'
 }
+
+export const authConfig = {
+  baseUrl: 'https://auth.nomoreparties.co',
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
+}
