@@ -25,6 +25,7 @@ Icon
 # Node
 dist
 node_modules
+build
 
 # Directories potentially created on remote AFP share
 .AppleDB
