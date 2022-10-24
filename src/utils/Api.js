@@ -103,8 +103,8 @@ class Api {
     .then(this._checkResponse)
   }
 
-  getToken (jwt) {
-    return fetch(`https://auth.nomoreparties.co/signin/users/me`, {
+  checkToken (jwt) {
+    return fetch(`https://auth.nomoreparties.co/users/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

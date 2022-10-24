@@ -5,11 +5,15 @@ import Header from "./Header";
 
 function Main (props) {
   
+  const handleLogout = () => {
+    props.onLogout();
+  }
+
   const currentUser = useContext(CurrentUserContext);
 
   return (
     <>
-      <Header headerText={props.headerText} headerLink={props.headerLink} onLogout={props.onLogout} userEmail={props.userEmail} />
+      <Header headerText={props.headerText} headerLink={props.headerLink} onLogout={handleLogout} userEmail={props.userEmail} />
       <main className="main">
 
       <section className="profile">

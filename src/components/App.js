@@ -19,7 +19,7 @@ import InfoToolTip from './InfoTooltip';
 function App() {
 
   const history = useNavigate();
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -35,7 +35,6 @@ function App() {
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   useEffect(() => {
-    console.log('123')
     tokenCheck();
   }, [])
 
@@ -66,15 +65,16 @@ function App() {
   useEffect(() => {
     if (!loggedIn) return;
     history('/');
-  }, [loggedIn, history])
+  }, [loggedIn])
 
   function handleLogin (email, password) {
     api.login(email, password)
       .then((data) => {
         console.log(data.token, 'токен после успешного логина')
-        localStorage.setItem("token", data.token);
+        localStorage.setItem('token', data.token);
+        console.log('это после сохранения токена')
+        setUserEmail(email)
         setLoggedIn(true);
-        setUserEmail(email);
         history('/');
       })
       .catch(() => {
@@ -108,20 +108,20 @@ function App() {
 
   function handleLogout () {
     console.log('logout')
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('token');
     setLoggedIn(false);
     history('/sign-in');
   }
 
   function tokenCheck () {
-    if (!localStorage.getItem('jwt')) return;
-    const jwt = localStorage.getItem('jwt');
-    console.log('вот token', jwt)
-    api.getToken(jwt)
-      .then((data) => {
-        console.log(data)
-      })
-
+    const jwt = localStorage.getItem('token');
+    if (!jwt) { return }
+      api.checkToken(jwt)
+        .then(() => {
+          setLoggedIn(true)
+          history('/')
+        })
+        .catch((err) => console.log(err))
   }
 
   function handleCardLike(card) {
@@ -212,7 +212,6 @@ function App() {
             headerText="Войти"
             headerLink="/sign-in"
             loggedIn={loggedIn}
-            onLogout={handleLogout}
             isInfoToolOpen={isInfoToolOpen}
             onClose={closeAllPopups}
           />
