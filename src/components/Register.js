@@ -34,8 +34,8 @@ function Register (props) {
       <section className="login">
         <h2 className="login__title">Регистрация</h2>
         <form className="login__form" onSubmit={handleSubmit}>
-        <input className="login__input login__input_value_email" onChange={handleEmailChange} type="email" placeholder="Email" name="email" required minLength="4" maxLength="40" />
-        <input className="login__input login__input_value_pass" onChange={handlePassChange} type="password" placeholder="Password" name="password" required minLength="4" maxLength="40" />
+        <input className="login__input login__input_value_email" onChange={handleEmailChange} type="email" placeholder="Email" name="email" required minLength="4" maxLength="40" value={email} />
+        <input className="login__input login__input_value_pass" onChange={handlePassChange} type="password" placeholder="Password" name="password" required minLength="4" maxLength="40" value={password} />
           <button className="button button-enter" type="submit">Зарегистрироваться</button>
           <Link to="/sign-in" className="login__substring">Уже зарегистрированы? Войти</Link>
         </form>

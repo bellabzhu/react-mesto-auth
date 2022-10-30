@@ -43,7 +43,7 @@ function App() {
         setCurrentUser(user);
       })
       .catch((err) => console.log(err))
-  }, [])
+  }, []);
 
   // Close any popup by Escape
   useEffect(() => {
@@ -58,12 +58,12 @@ function App() {
     return () => {
       document.removeEventListener('keydown', closePopupByEsc)
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   useEffect(() => {
     if (!loggedIn) return;
     history('/');
-  }, [loggedIn])
+  }, [loggedIn]);
 
   function handleLogin (email, password) {
     auth.login(email, password)
@@ -78,9 +78,9 @@ function App() {
         setisInfoToolOpen(true);
         setTimeout(() => {
           setisInfoToolOpen(false);
-        })
+        }, 2500)
       })
-  }
+  };
 
   function handleRegister (email, password) {
     auth.register(email, password)
@@ -98,14 +98,14 @@ function App() {
         setTimeout(() => {
           setisInfoToolOpen(false);
         }, 2500)
-      })
-  }
+      });
+  };
 
   function handleLogout () {
     localStorage.removeItem('token');
     setLoggedIn(false);
     history('/sign-in');
-  }
+  };
 
   function tokenCheck () {
     const jwt = localStorage.getItem('token');
@@ -115,8 +115,8 @@ function App() {
           setLoggedIn(true)
           history('/')
         })
-        .catch((err) => console.log(err))
-  }
+        .catch((err) => console.log(err));
+  };
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -124,8 +124,8 @@ function App() {
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
       })
-      .catch((err) => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
 
   function handleCardDelete (card) {
     setIsButtonLoading(true);
@@ -134,7 +134,7 @@ function App() {
       .then(() => closeAllPopups())
       .catch((err) => console.log(err))
       .finally(() => setIsButtonLoading(false))
-  }
+  };
 
   function handleUpdateUser (userInfo) {
     setIsButtonLoading(true);
@@ -143,7 +143,7 @@ function App() {
       .then(() => closeAllPopups())
       .catch((err) => console.log(err))
       .finally(() => setIsButtonLoading(false))
-  }
+  };
 
   function handleUpdateAvatar (userAvatar) {
     setIsButtonLoading(true);
@@ -152,7 +152,7 @@ function App() {
       .then(() => closeAllPopups())
       .catch((err) => console.log(err))
       .finally(() => setIsButtonLoading(false))
-  }
+  };
 
   function handleAddPlace (card) {
     setIsButtonLoading(true);
@@ -161,29 +161,29 @@ function App() {
       .then(() => closeAllPopups())
       .catch((err) => console.log(err))
       .finally(() => setIsButtonLoading(false))
-  }
+  };
 
   function handleEditProfileClick () {
     setIsEditProfilePopupOpen(true);
-  }
+  };
 
   function handleEditAvatarClick () {
     setIsEditAvatarPopupOpen(true);
-  }
+  };
 
   function handleAddPlaceClick () {
     setIsAddPlacePopupOpen(true);
-  }
+  };
 
   function handleCardClick (card) {
     setIsImagePopupOpen(true);
     setSelectedCard(card)
-  }
+  };
 
   function handleCallConfirmationPopup (card) {
     setIsConfirmationPopupOpen(true);
     setSelectedCard(card)
-  }
+  };
 
   function closeAllPopups () {
     setIsAddPlacePopupOpen(false);
@@ -192,7 +192,7 @@ function App() {
     setIsImagePopupOpen(false);
     setIsConfirmationPopupOpen(false);
     setisInfoToolOpen(false);
-  }
+  };
 
   return (
     <div className="page-container">
@@ -290,6 +290,6 @@ function App() {
     </CurrentUserContext.Provider>
     </div>
   );
-}
+};
 
 export default App;
