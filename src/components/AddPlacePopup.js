@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
-import { isButtonLoadingContext } from '../contexts/isButtonLoadingContext';
+import { useEffect, useState } from 'react';
 import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup (props) {
@@ -39,7 +38,7 @@ function AddPlacePopup (props) {
       buttonText="Создать">
         <input className="popup__input popup__input_value_cardname" id="placename" type="text" placeholder="Название" name="name" required maxLength="30" minLength="2" onChange={handlePlaceNameChange} value={placeName} />
         <span className="popup__input-error popup__input-placename-error"></span>
-        <input className="popup__input popup__input_value_cardlink" type="url" id="placelink" placeholder="Ссылка на картинку" name="link" required onChange={handlePlaceLinkChange} value={placeLink}/>
+        <input className="popup__input popup__input_value_cardlink" type="url" id="placelink" placeholder="Ссылка на картинку" name="link" required onChange={handlePlaceLinkChange} value={placeLink} />
         <span className="popup__input-error popup__input-placelink-error"></span>      
     </PopupWithForm>
   )
